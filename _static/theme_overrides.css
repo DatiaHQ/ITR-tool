@@ -1,0 +1,8 @@
+/* Allow reference tables to wrap while keeping horizontal overflow usable. */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+.wy-table-responsive { overflow-x: auto; }
+.rst-content img { max-width: 100%; height: auto; }

@@ -1,0 +1,45 @@
+ITR
+===
+
+.. py:module:: ITR
+
+.. autoapi-nested-parse::
+
+   This package helps companies and financial institutions to assess the temperature alignment of current
+   targets, commitments, and investment and lending portfolios, and to use this information to develop
+   targets for official validation by the SBTi.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/ITR/configs/index
+   /autoapi/ITR/data/index
+   /autoapi/ITR/example_utils/index
+   /autoapi/ITR/interfaces/index
+   /autoapi/ITR/portfolio_aggregation/index
+   /autoapi/ITR/portfolio_coverage_tvp/index
+   /autoapi/ITR/target_validation/index
+   /autoapi/ITR/temperature_score/index
+   /autoapi/ITR/utils/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ITR.__version__
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+   :value: '1.7.4'
+
+

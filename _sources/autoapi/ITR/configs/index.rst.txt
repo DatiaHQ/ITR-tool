@@ -1,0 +1,620 @@
+ITR.configs
+===========
+
+.. py:module:: ITR.configs
+
+.. autoapi-nested-parse::
+
+   This file defines the constants used throughout the different classes. In order to redefine these settings whilst using
+   the module, extend the respective config class and pass it to the class as the "constants" parameter.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ITR.configs.ColumnsConfig
+   ITR.configs.PortfolioAggregationConfig
+   ITR.configs.TemperatureScoreConfig
+   ITR.configs.PortfolioCoverageTVPConfig
+
+
+Module Contents
+---------------
+
+.. py:class:: ColumnsConfig
+
+   .. py:attribute:: COMPANY_ID
+      :value: 'company_id'
+
+
+
+   .. py:attribute:: COMPANY_ISIN
+      :value: 'company_isin'
+
+
+
+   .. py:attribute:: COMPANY_LEI
+      :value: 'company_lei'
+
+
+
+   .. py:attribute:: COMPANY_ISIC
+      :value: 'isic'
+
+
+
+   .. py:attribute:: TARGET_IDS
+      :value: 'target_ids'
+
+
+
+   .. py:attribute:: REGRESSION_PARAM
+      :value: 'param'
+
+
+
+   .. py:attribute:: REGRESSION_INTERCEPT
+      :value: 'intercept'
+
+
+
+   .. py:attribute:: MARKET_CAP
+      :value: 'company_market_cap'
+
+
+
+   .. py:attribute:: INVESTMENT_VALUE
+      :value: 'investment_value'
+
+
+
+   .. py:attribute:: COMPANY_ENTERPRISE_VALUE
+      :value: 'company_enterprise_value'
+
+
+
+   .. py:attribute:: COMPANY_EV_PLUS_CASH
+      :value: 'company_ev_plus_cash'
+
+
+
+   .. py:attribute:: COMPANY_TOTAL_ASSETS
+      :value: 'company_total_assets'
+
+
+
+   .. py:attribute:: TARGET_REFERENCE_NUMBER
+      :value: 'target_type'
+
+
+
+   .. py:attribute:: SCOPE
+      :value: 'scope'
+
+
+
+   .. py:attribute:: SCOPE3_CATEGORY
+      :value: 's3_category'
+
+
+
+   .. py:attribute:: AR6
+      :value: 'ar6'
+
+
+
+   .. py:attribute:: REDUCTION_FROM_BASE_YEAR
+      :value: 'reduction_from_base_year'
+
+
+
+   .. py:attribute:: START_YEAR
+      :value: 'start_year'
+
+
+
+   .. py:attribute:: VARIABLE
+      :value: 'variable'
+
+
+
+   .. py:attribute:: SLOPE
+      :value: 'slope'
+
+
+
+   .. py:attribute:: TIME_FRAME
+      :value: 'time_frame'
+
+
+
+   .. py:attribute:: MODEL
+      :value: 'model'
+
+
+
+   .. py:attribute:: ANNUAL_REDUCTION_RATE
+      :value: 'annual_reduction_rate'
+
+
+
+   .. py:attribute:: EMISSIONS_IN_SCOPE
+      :value: 'emissions_in_scope'
+
+
+
+   .. py:attribute:: TEMPERATURE_SCORE
+      :value: 'temperature_score'
+
+
+
+   .. py:attribute:: COMPANY_NAME
+      :value: 'company_name'
+
+
+
+   .. py:attribute:: OWNED_EMISSIONS
+      :value: 'owned_emissions'
+
+
+
+   .. py:attribute:: COUNTRY
+      :value: 'country'
+
+
+
+   .. py:attribute:: SECTOR
+      :value: 'sector'
+
+
+
+   .. py:attribute:: GHG_SCOPE1
+      :value: 'ghg_s1'
+
+
+
+   .. py:attribute:: GHG_SCOPE2
+      :value: 'ghg_s2'
+
+
+
+   .. py:attribute:: GHG_SCOPE12
+      :value: 'ghg_s1s2'
+
+
+
+   .. py:attribute:: GHG_SCOPE3
+      :value: 'ghg_s3'
+
+
+
+   .. py:attribute:: COMPANY_REVENUE
+      :value: 'company_revenue'
+
+
+
+   .. py:attribute:: CASH_EQUIVALENTS
+      :value: 'company_cash_equivalents'
+
+
+
+   .. py:attribute:: TARGET_CLASSIFICATION
+      :value: 'target_classification'
+
+
+
+   .. py:attribute:: REDUCTION_AMBITION
+      :value: 'reduction_ambition'
+
+
+
+   .. py:attribute:: BASE_YEAR
+      :value: 'base_year'
+
+
+
+   .. py:attribute:: END_YEAR
+      :value: 'end_year'
+
+
+
+   .. py:attribute:: SBTI_VALIDATED
+      :value: 'sbti_validated'
+
+
+
+   .. py:attribute:: TARGET_CONFIRM_DATE
+      :value: 'statement_date'
+
+
+
+   .. py:attribute:: ACHIEVED_EMISSIONS
+      :value: 'achieved_reduction'
+
+
+
+   .. py:attribute:: ISIC
+      :value: 'isic'
+
+
+
+   .. py:attribute:: INDUSTRY_LVL1
+      :value: 'industry_level_1'
+
+
+
+   .. py:attribute:: INDUSTRY_LVL2
+      :value: 'industry_level_2'
+
+
+
+   .. py:attribute:: INDUSTRY_LVL3
+      :value: 'industry_level_3'
+
+
+
+   .. py:attribute:: INDUSTRY_LVL4
+      :value: 'industry_level_4'
+
+
+
+   .. py:attribute:: COVERAGE_S1
+      :value: 'coverage_s1'
+
+
+
+   .. py:attribute:: COVERAGE_S2
+      :value: 'coverage_s2'
+
+
+
+   .. py:attribute:: COVERAGE_S3
+      :value: 'coverage_s3'
+
+
+
+   .. py:attribute:: INTENSITY_METRIC
+      :value: 'intensity_metric'
+
+
+
+   .. py:attribute:: INTENSITY_METRIC_AR6
+      :value: 'intensity_metric'
+
+
+
+   .. py:attribute:: TARGET_TYPE_AR6
+      :value: 'target_type'
+
+
+
+   .. py:attribute:: AR6_VARIABLE
+      :value: 'ar6_variable'
+
+
+
+   .. py:attribute:: REGRESSION_MODEL
+      :value: 'Regression_model'
+
+
+
+   .. py:attribute:: BASEYEAR_GHG_S1
+      :value: 'base_year_ghg_s1'
+
+
+
+   .. py:attribute:: BASEYEAR_GHG_S2
+      :value: 'base_year_ghg_s2'
+
+
+
+   .. py:attribute:: BASEYEAR_GHG_S1S2
+      :value: 'base_year_ghg_s1s2'
+
+
+
+   .. py:attribute:: BASEYEAR_GHG_S3
+      :value: 'base_year_ghg_s3'
+
+
+
+   .. py:attribute:: REGION
+      :value: 'region'
+
+
+
+   .. py:attribute:: ENGAGEMENT_TARGET
+      :value: 'engagement_target'
+
+
+
+   .. py:attribute:: BASE_YEAR_TS
+      :value: 'base_year_ts'
+
+
+
+   .. py:attribute:: END_YEAR_TS
+      :value: 'end_year_ts'
+
+
+
+   .. py:attribute:: TO_CALCULATE
+      :value: 'to_calculate'
+
+
+
+   .. py:attribute:: GHG_S3_1
+      :value: 'ghg_s3_1'
+
+
+
+   .. py:attribute:: GHG_S3_2
+      :value: 'ghg_s3_2'
+
+
+
+   .. py:attribute:: GHG_S3_3
+      :value: 'ghg_s3_3'
+
+
+
+   .. py:attribute:: GHG_S3_4
+      :value: 'ghg_s3_4'
+
+
+
+   .. py:attribute:: GHG_S3_5
+      :value: 'ghg_s3_5'
+
+
+
+   .. py:attribute:: GHG_S3_6
+      :value: 'ghg_s3_6'
+
+
+
+   .. py:attribute:: GHG_S3_7
+      :value: 'ghg_s3_7'
+
+
+
+   .. py:attribute:: GHG_S3_8
+      :value: 'ghg_s3_8'
+
+
+
+   .. py:attribute:: GHG_S3_9
+      :value: 'ghg_s3_9'
+
+
+
+   .. py:attribute:: GHG_S3_10
+      :value: 'ghg_s3_10'
+
+
+
+   .. py:attribute:: GHG_S3_11
+      :value: 'ghg_s3_11'
+
+
+
+   .. py:attribute:: GHG_S3_12
+      :value: 'ghg_s3_12'
+
+
+
+   .. py:attribute:: GHG_S3_13
+      :value: 'ghg_s3_13'
+
+
+
+   .. py:attribute:: GHG_S3_14
+      :value: 'ghg_s3_14'
+
+
+
+   .. py:attribute:: GHG_S3_15
+      :value: 'ghg_s3_15'
+
+
+
+   .. py:attribute:: PARAM
+      :value: 'param'
+
+
+
+   .. py:attribute:: INTERCEPT
+      :value: 'intercept'
+
+
+
+   .. py:attribute:: WEIGHTED_TEMPERATURE_SCORE
+      :value: 'weighted_temperature_score'
+
+
+
+   .. py:attribute:: CONTRIBUTION_RELATIVE
+      :value: 'contribution_relative'
+
+
+
+   .. py:attribute:: CONTRIBUTION
+      :value: 'contribution'
+
+
+
+.. py:class:: PortfolioAggregationConfig
+
+   .. py:attribute:: COLS
+
+
+.. py:class:: TemperatureScoreConfig
+
+   Bases: :py:obj:`PortfolioAggregationConfig`
+
+
+   This factor determines what part of the temperature for a not SBTi-validated company should be the TS and what part
+   should be the default score.
+   The calculated temperature score should not be lower than the current level of
+   global warning which is expressed through the temperature floor constant.
+
+
+   .. py:attribute:: SBTI_FACTOR
+      :value: 1
+
+
+
+   .. py:attribute:: DEFAULT_SCORE
+      :type:  float
+      :value: 3.4
+
+
+
+   .. py:attribute:: TEMPERATURE_FLOOR
+      :type:  float
+      :value: 1.5
+
+
+
+   .. py:attribute:: TEST_S3_CALCULATION
+      :value: False
+
+
+
+   .. py:attribute:: JSON_REGRESSION_MODEL
+
+
+   .. py:attribute:: MODEL_NUMBER
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: DEFAULT_INDUSTRY
+      :value: 'Others'
+
+
+
+   .. py:attribute:: VALUE_TARGET_REFERENCE_INTENSITY_BASE
+      :value: 'inte'
+
+
+
+   .. py:attribute:: SLOPE_MAP
+
+
+   .. py:attribute:: VALUE_TARGET_REFERENCE
+
+
+   .. py:attribute:: INTENSITY_MAPPINGS
+
+
+   .. py:attribute:: intensity_metric_types
+
+
+   .. py:attribute:: ABSOLUTE_MAPPINGS
+
+
+   .. py:attribute:: TEMPERATURE_RESULTS
+      :value: 'temperature_results'
+
+
+
+   .. py:attribute:: INVESTMENT_VALUE
+      :value: 'investment_value'
+
+
+
+   .. py:attribute:: S3_CATEGORY_MAPPINGS
+
+
+   .. py:attribute:: EPSILON
+      :value: 1e-06
+
+
+
+.. py:class:: PortfolioCoverageTVPConfig
+
+   Bases: :py:obj:`PortfolioAggregationConfig`
+
+
+   .. py:attribute:: FILE_TARGETS
+
+
+   .. py:attribute:: FILE_TARGETS_CUSTOM_PATH
+
+
+   .. py:attribute:: USE_LOCAL_CTA
+      :value: False
+
+
+
+   .. py:attribute:: OFFLINE
+      :value: False
+
+
+
+   .. py:attribute:: SKIP_CTA_FILE_IF_EXISTS
+      :value: True
+
+
+
+   .. py:attribute:: CTA_FILE_URL
+      :value: 'https://sb-ti.files.svdcdn.com/staging/files/companies-excel.xlsx'
+
+
+
+   .. py:attribute:: OUTPUT_TARGET_STATUS
+      :value: 'sbti_target_status'
+
+
+
+   .. py:attribute:: OUTPUT_WEIGHTED_TARGET_STATUS
+      :value: 'weighted_sbti_target_status'
+
+
+
+   .. py:attribute:: VALUE_STATUS_SET
+      :value: 'Validated Targets'
+
+
+
+   .. py:attribute:: VALUE_STATUS_COMMITTED
+      :value: 'Commitment to Set Targets'
+
+
+
+   .. py:attribute:: VALUE_STATUS_REMOVED
+      :value: 'Commitment Removed'
+
+
+
+   .. py:attribute:: TARGET_STATUS_ALIASES
+
+
+   .. py:attribute:: TARGET_SCORE_MAP
+
+
+   .. py:attribute:: COL_COMPANY_NAME
+      :value: 'company_name'
+
+
+
+   .. py:attribute:: COL_COMPANY_ISIN
+      :value: 'isin'
+
+
+
+   .. py:attribute:: COL_COMPANY_LEI
+      :value: 'lei'
+
+
+
+   .. py:attribute:: COL_TARGET
+      :value: 'near_term_status'
+
+
+

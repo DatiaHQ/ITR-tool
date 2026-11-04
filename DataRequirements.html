@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Requirements &mdash; WWF ITR Tool  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=dc073278" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Legends" href="Legends.html" />
+    <link rel="prev" title="Functional Overview" href="FunctionalOverview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WWF ITR Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction to temperature scoring and portfolio coverage methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_app.html">Getting Started with the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_app.html">Using the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Getting Started with Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionalOverview.html">Functional Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#choose-the-input-workflow">Choose the input workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#portfolio-data">Portfolio data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#company-data">Company data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fundamental-data">Fundamental data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#target-data">Target data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ready-made-company-scores">Ready-made company scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sbti-status">SBTi status</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cta-storage-and-reproducibility">CTA storage and reproducibility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Legends.html">Data Legends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Project Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terms.html">Terms of Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WWF ITR Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Requirements</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DataRequirements.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-requirements">
+<h1>Data Requirements<a class="headerlink" href="#data-requirements" title="Link to this heading"></a></h1>
+<section id="choose-the-input-workflow">
+<h2>Choose the input workflow<a class="headerlink" href="#choose-the-input-workflow" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Files for each analysis</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 47.0%" />
+<col style="width: 28.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Analysis</p></th>
+<th class="head"><p>Required inputs</p></th>
+<th class="head"><p>Start with</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Calculate temperature scores from targets</p></td>
+<td><p>Portfolio plus company fundamentals/emissions and target data.</p></td>
+<td><p><a class="reference download internal" download="" href="_downloads/8553c690f4505847d59dc6a797989627/PortfolioTemplate.csv"><code class="xref download docutils literal notranslate"><span class="pre">Portfolio</span> <span class="pre">CSV</span></code></a> and <a class="reference download internal" download="" href="_downloads/d16600f8589c0c47112a7407bd6f0c23/DataProviderTemplate.xlsx"><code class="xref download docutils literal notranslate"><span class="pre">provider</span> <span class="pre">workbook</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aggregate existing company temperature scores</p></td>
+<td><p>One table containing scores, holdings, scopes and timeframes, plus data needed for the selected weighting method.</p></td>
+<td><p><a class="reference download internal" download="" href="_downloads/9214e2aca8ed9c2032d592ea1dcbe093/ReadyMadeScoresTemplate.xlsx"><code class="xref download docutils literal notranslate"><span class="pre">Ready-made</span> <span class="pre">scores</span> <span class="pre">workbook</span></code></a> and notebook 4b in <a class="reference internal" href="notebooks.html"><span class="doc">Getting Started with Notebooks</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Calculate standalone portfolio coverage (WATS)</p></td>
+<td><p>Portfolio with investment values and LEI/ISIN identifiers, plus SBTi CTA data. No emissions or target workbook.</p></td>
+<td><p>The standalone coverage notebook in <a class="reference internal" href="notebooks.html"><span class="doc">Getting Started with Notebooks</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>CTA data is also needed for the app’s optional portfolio coverage or
+SBTi Factor adjustment. The app’s target-based screen expects both
+portfolio and provider inputs even if coverage is your main interest;
+use the standalone notebook or Python coverage example for portfolio-only
+analysis.</p>
+</section>
+<section id="portfolio-data">
+<h2>Portfolio data<a class="headerlink" href="#portfolio-data" title="Link to this heading"></a></h2>
+<p>Supply <code class="docutils literal notranslate"><span class="pre">company_name</span></code>, <code class="docutils literal notranslate"><span class="pre">company_id</span></code> and <code class="docutils literal notranslate"><span class="pre">investment_value</span></code>. Use
+the same company ID in the portfolio, fundamentals and target sheets;
+the identifier need not be an ISIN. Keep IDs as text to preserve leading
+zeros. Use the same currency across holdings and financial denominators.
+For a straightforward WATS analysis use non-negative values and a
+positive total investment value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">company_isin</span></code> and <code class="docutils literal notranslate"><span class="pre">company_lei</span></code> are optional model fields, not
+universal requirements for temperature scoring. Supply reliable LEI or
+ISIN identifiers when using CTA matching. Holdings without a usable
+identifier remain unmatched. See <a class="reference internal" href="#sbti-status"><span class="std std-ref">SBTi status</span></a> for the lookup order.</p>
+<p>The standalone coverage notebook requires one row per <code class="docutils literal notranslate"><span class="pre">company_id</span></code>;
+combine multiple holdings in the same company before using it.
+For custom grouping in Python, put additional categories in <code class="docutils literal notranslate"><span class="pre">user_fields</span></code>
+as a dictionary; see <a class="reference internal" href="Legends.html"><span class="doc">Data Legends</span></a>.</p>
+</section>
+<section id="company-data">
+<h2>Company data<a class="headerlink" href="#company-data" title="Link to this heading"></a></h2>
+<p>For target-based analysis, keep the provider template’s sheet names and
+columns, including columns whose cells may be blank:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fundamental_data</span></code>: company name, ID, ISIC classification, emissions,
+financial values and optional grouping categories.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target_data</span></code>: company ID, target type, scopes, relevant coverage
+and ambition, base/end years and supporting target fields.</p></li>
+</ul>
+<p>Model-level optionality does not mean every column can be removed from
+an Excel workbook: the Excel loader reads several columns directly.
+Use the template and <a class="reference internal" href="Legends.html"><span class="doc">Data Legends</span></a> rather than creating a minimal
+workbook by deleting apparently unused columns.</p>
+<section id="fundamental-data">
+<h3>Fundamental data<a class="headerlink" href="#fundamental-data" title="Link to this heading"></a></h3>
+<p>The ISIC classification maps targets to regression models. Emissions
+are used to combine scope scores and for emissions-weighted aggregation.
+For uploaded Excel provider files, supply separate <code class="docutils literal notranslate"><span class="pre">ghg_s1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ghg_s2</span></code> when known: the loader computes their sum for <code class="docutils literal notranslate"><span class="pre">ghg_s1s2</span></code>.
+Do not rely on a combined-only value being retained by this loader.
+Use tonnes of CO2 equivalent and consistent reporting periods.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Aggregation inputs</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 40.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Weighting</p></th>
+<th class="head"><p>Additional company data</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>WATS</p></td>
+<td><p>Portfolio investment values</p></td>
+<td><p>No company financial denominator for weighting. Emissions may still be needed for combined scope scores.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TETS</p></td>
+<td><p>Total emissions</p></td>
+<td><p>Emissions for the requested scopes; no company financial denominator.</p></td>
+</tr>
+<tr class="row-even"><td><p>MOTS</p></td>
+<td><p>Owned emissions using market capitalization</p></td>
+<td><p>Relevant emissions and <code class="docutils literal notranslate"><span class="pre">company_market_cap</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>EOTS</p></td>
+<td><p>Owned emissions using enterprise value</p></td>
+<td><p>Relevant emissions and <code class="docutils literal notranslate"><span class="pre">company_enterprise_value</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>ECOTS</p></td>
+<td><p>Owned emissions using enterprise value plus cash</p></td>
+<td><p>Relevant emissions, <code class="docutils literal notranslate"><span class="pre">company_enterprise_value</span></code> and <code class="docutils literal notranslate"><span class="pre">company_cash_equivalents</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>AOTS</p></td>
+<td><p>Owned emissions using total assets</p></td>
+<td><p>Relevant emissions and <code class="docutils literal notranslate"><span class="pre">company_total_assets</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>ROTS</p></td>
+<td><p>Owned emissions using revenue</p></td>
+<td><p>Relevant emissions and <code class="docutils literal notranslate"><span class="pre">company_revenue</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Ownership-based methods also use investment values. Required denominators
+must be valid for every included company; missing data should not be
+replaced with zero merely to bypass validation.</p>
+</section>
+<section id="target-data">
+<h3>Target data<a class="headerlink" href="#target-data" title="Link to this heading"></a></h3>
+<p>Provide public GHG reduction targets with type, scope, relevant scope
+coverage, ambition and base/end years. Enter fractions as decimals:
+70% is <code class="docutils literal notranslate"><span class="pre">0.7</span></code>, not <code class="docutils literal notranslate"><span class="pre">70</span></code>. Supply base-year emissions for relevant
+scope splitting and combination. Scope 3 targets may specify categories
+1–15 or a headline target; see <a class="reference internal" href="Legends.html"><span class="doc">Data Legends</span></a>.</p>
+<p>Intensity metrics must map to the accepted categories in <a class="reference internal" href="Legends.html"><span class="doc">Data Legends</span></a>.
+The special <code class="docutils literal notranslate"><span class="pre">T_score</span></code> target type is distinct from the ready-made
+portfolio-score workflow below. See the
+<a class="reference external" href="https://wwfint.awsassets.panda.org/downloads/cdp-wwf-temperature-scoring-methodology---september-2024.pdf">CDP-WWF methodology</a>
+for its meaning. Invalid targets can be skipped; review validation output
+and default-score use before interpreting results.</p>
+</section>
+</section>
+<section id="ready-made-company-scores">
+<h2>Ready-made company scores<a class="headerlink" href="#ready-made-company-scores" title="Link to this heading"></a></h2>
+<p>The app’s 4b importer reads the first sheet of an Excel file. Required
+columns are <code class="docutils literal notranslate"><span class="pre">company_id</span></code>, <code class="docutils literal notranslate"><span class="pre">company_name</span></code>, <code class="docutils literal notranslate"><span class="pre">investment_value</span></code>,
+<code class="docutils literal notranslate"><span class="pre">scope</span></code>, <code class="docutils literal notranslate"><span class="pre">time_frame</span></code> and <code class="docutils literal notranslate"><span class="pre">temperature_score</span></code>. Use scope codes
+<code class="docutils literal notranslate"><span class="pre">S1</span></code>, <code class="docutils literal notranslate"><span class="pre">S2</span></code>, <code class="docutils literal notranslate"><span class="pre">S1S2</span></code>, <code class="docutils literal notranslate"><span class="pre">S3</span></code> or <code class="docutils literal notranslate"><span class="pre">S1S2S3</span></code> and timeframe codes
+<code class="docutils literal notranslate"><span class="pre">SHORT</span></code>, <code class="docutils literal notranslate"><span class="pre">MID</span></code> or <code class="docutils literal notranslate"><span class="pre">LONG</span></code> (case-insensitive). Each row represents
+one company/scope/timeframe combination. Repeat the holding’s investment
+value across its different combinations, not as multiple holdings within
+the same combination.</p>
+<p>Additional emissions/financial columns depend on the weighting method
+above. Supported grouping fields include sector, region, country and
+industry levels. The app drops unsupported extra columns. This workflow
+does not recalculate targets and does not offer coverage or scenarios in
+the app. Python aggregation also needs <code class="docutils literal notranslate"><span class="pre">temperature_results</span></code>; notebook
+4b shows how to prepare it. See <a class="reference internal" href="FunctionalOverview.html"><span class="doc">Functional Overview</span></a> for interpretation.</p>
+</section>
+<section id="sbti-status">
+<span id="id1"></span><h2>SBTi status<a class="headerlink" href="#sbti-status" title="Link to this heading"></a></h2>
+<p>The current per-company Companies Taking Action (CTA) Excel file is
+downloaded from
+<a class="reference external" href="https://sb-ti.files.svdcdn.com/staging/files/companies-excel.xlsx">https://sb-ti.files.svdcdn.com/staging/files/companies-excel.xlsx</a>.
+Its required columns are <code class="docutils literal notranslate"><span class="pre">company_name</span></code>, <code class="docutils literal notranslate"><span class="pre">isin</span></code>, <code class="docutils literal notranslate"><span class="pre">lei</span></code> and
+<code class="docutils literal notranslate"><span class="pre">near_term_status</span></code>. This is different from the older
+<code class="docutils literal notranslate"><span class="pre">Action</span></code>/<code class="docutils literal notranslate"><span class="pre">Target</span></code>/<code class="docutils literal notranslate"><span class="pre">Date</span> <span class="pre">Published</span></code> schema.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Validated</span> <span class="pre">Targets</span></code> counts towards coverage; the previous label
+<code class="docutils literal notranslate"><span class="pre">Targets</span> <span class="pre">set</span></code> is also accepted. <code class="docutils literal notranslate"><span class="pre">Commitment</span> <span class="pre">to</span> <span class="pre">Set</span> <span class="pre">Targets</span></code> (previously
+<code class="docutils literal notranslate"><span class="pre">Committed</span></code>), <code class="docutils literal notranslate"><span class="pre">Commitment</span> <span class="pre">Removed</span></code> and empty status cells do not count
+as validated. Status matching ignores capitalization and surrounding
+whitespace. Missing required columns or unknown nonempty statuses raise
+an error.</p>
+<p>Companies are matched using LEI when available and usable (more than three
+characters), otherwise ISIN. An unmatched usable LEI does not trigger a
+second attempt with ISIN. Validate identifiers carefully: no match is not
+proof that a company has no approved targets. Matched validated companies
+receive 100 and other holdings 0; WATS weights these by investment value.</p>
+<section id="cta-storage-and-reproducibility">
+<h3>CTA storage and reproducibility<a class="headerlink" href="#cta-storage-and-reproducibility" title="Link to this heading"></a></h3>
+<p>The Python package caches downloads at
+<code class="docutils literal notranslate"><span class="pre">~/.itr-tool/current-Companies-Taking-Action.xlsx</span></code>, normally refreshing
+after one week. Failed downloads can leave it using an existing cache or
+bundled fallback data that may be outdated. To select a snapshot, pass
+<code class="docutils literal notranslate"><span class="pre">cta_file_path</span></code> to <code class="docutils literal notranslate"><span class="pre">PortfolioCoverageTVP</span></code>.</p>
+<p>The app uses <code class="docutils literal notranslate"><span class="pre">data/cta/current-Companies-Taking-Action.xlsx</span></code> by default,
+or <code class="docutils literal notranslate"><span class="pre">ITR_CTA_PATH</span></code> when configured. In Docker this persists through the
+<code class="docutils literal notranslate"><span class="pre">data</span></code> volume. The app displays the selected file and modification time,
+supports uploaded CTA files and provides update/offline controls; see
+<a class="reference internal" href="using_app.html"><span class="doc">Using the App</span></a>.</p>
+<p>The standalone coverage notebook downloads directly on each requested
+online run or reads a chosen local snapshot. It has no automatic cache
+or fallback; a validated download is saved to <code class="docutils literal notranslate"><span class="pre">data/cta_download.xlsx</span></code>.</p>
+<p>Keep the CTA snapshot and software versions with your results. Current
+CTA status does not reconstruct historical status, and file modification
+time is not a validation or historical reporting date.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="FunctionalOverview.html" class="btn btn-neutral float-left" title="Functional Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Legends.html" class="btn btn-neutral float-right" title="Data Legends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, WWF Sweden.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

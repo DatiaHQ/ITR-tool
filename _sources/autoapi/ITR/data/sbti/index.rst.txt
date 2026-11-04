@@ -1,0 +1,90 @@
+ITR.data.sbti
+=============
+
+.. py:module:: ITR.data.sbti
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ITR.data.sbti.SBTi
+
+
+Module Contents
+---------------
+
+.. py:class:: SBTi(config: Type[ITR.configs.PortfolioCoverageTVPConfig] = PortfolioCoverageTVPConfig, cta_file_path: Optional[str] = None)
+
+   Data provider skeleton for SBTi. This class only provides the sbti_validated field for existing companies.
+
+
+   .. py:method:: _check_if_cta_file_exists()
+
+      Check if the CTA file exists in the local file system
+
+
+
+   .. py:method:: _get_bundled_cta_path()
+
+      Get the path to the bundled CTA file in the package
+
+
+
+   .. py:method:: _use_bundled_fallback()
+
+      Copy the bundled CTA file to the target location as a fallback
+
+
+
+   .. py:method:: _check_CTA_less_than_one_week_old()
+
+      Check if the CTA file is older than a week
+
+
+
+   .. py:method:: _use_local_cta_file()
+
+
+   .. py:method:: _download_cta_file()
+
+
+   .. py:method:: _fetch_and_save_cta_file()
+
+
+   .. py:method:: _is_offline()
+
+
+   .. py:method:: handle_cta_file()
+
+
+   .. py:attribute:: c
+
+
+   .. py:attribute:: targets
+
+
+   .. py:method:: _normalize_cta_file(targets)
+
+      Validate required columns and normalize current and previous status labels.
+
+
+
+   .. py:method:: filter_cta_file(targets)
+
+      Keep validated near-term targets and deduplicate company identifiers.
+
+
+
+   .. py:method:: get_sbti_targets(companies: List[ITR.interfaces.IDataProviderCompany], id_map: dict) -> List[ITR.interfaces.IDataProviderCompany]
+
+      Check for each company if they have an SBTi validated target, first using the company LEI,
+      if available, and then using the ISIN.
+
+      :param companies: A list of IDataProviderCompany instances
+      :param id_map: A map from company id to a tuple of (ISIN, LEI)
+      :return: A list of IDataProviderCompany instances, supplemented with the SBTi information
+
+
+

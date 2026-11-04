@@ -1,0 +1,232 @@
+ITR.target_validation
+=====================
+
+.. py:module:: ITR.target_validation
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   ITR.target_validation.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   ITR.target_validation.TargetProtocol
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: TargetProtocol(config: Type[ITR.configs.PortfolioAggregationConfig] = PortfolioAggregationConfig)
+
+   This class validates the targets, to make sure that only active, useful
+   targets are considered. It then combines the targets with company-related
+   data into a dataframe where there's one row for each of the nine possible
+   target types (short, mid, long * S1+S2, S3, S1+S2+S3).
+   This class follows the procedures outlined by the target protocol that is
+   a part of the "Temperature Rating Methodology" (2024), which has been created
+   by CDP Worldwide and WWF International.
+
+   :param config: A Portfolio aggregation config
+
+
+   .. py:attribute:: c
+
+
+   .. py:attribute:: logger
+
+
+   .. py:attribute:: target_data
+      :type:  pandas.DataFrame
+
+
+   .. py:attribute:: intensity_metric_types
+
+
+   .. py:attribute:: company_data
+      :type:  pandas.DataFrame
+
+
+   .. py:attribute:: data
+      :type:  pandas.DataFrame
+
+
+   .. py:attribute:: invalid_targets
+      :type:  List[dict]
+      :value: []
+
+
+
+   .. py:method:: process(targets: List[ITR.interfaces.IDataProviderTarget], companies: List[ITR.interfaces.IDataProviderCompany]) -> pandas.DataFrame
+
+      Process the targets and companies, validate all targets and return a data frame that combines all targets and company data into a 9-box grid.
+
+      :param targets: A list of targets
+      :param companies: A list of companies
+      :return: A data frame that combines the processed data
+
+
+
+   .. py:method:: _validate(target: ITR.interfaces.IDataProviderTarget) -> bool
+
+      Validate a target, meaning it should:
+
+      * Have a valid type
+      * Not be finished
+      * A valid end year
+
+      :param target: The target to validate
+      :return: True if it's a valid target, false if it isn't
+
+
+
+   .. py:method:: _validate_with_reasons(target: ITR.interfaces.IDataProviderTarget) -> List[str]
+
+      Validate a target and return a list of reasons it is invalid.
+      An empty list means the target is valid.
+
+      :param target: The target to validate
+      :return: List of human-readable reasons for invalidity, empty if valid
+
+
+
+   .. py:method:: _validate_t_score(target: ITR.interfaces.IDataProviderTarget) -> bool
+
+      Validate targets set using the CDP_WWF temperature scoing methodology
+      :param target: The target to validate
+      :return: True if it's a valid target, false if it isn't
+
+
+
+   .. py:method:: _split_s1s2s3(target: ITR.interfaces.IDataProviderTarget) -> Tuple[ITR.interfaces.IDataProviderTarget, Optional[ITR.interfaces.IDataProviderTarget]]
+
+      If there is a s1s2s3 scope, split it into two targets with s1s2 and s3
+      This S3 target becomes a headline target
+      :param target: The input target
+      :return The split targets or the original target and None
+
+
+
+   .. py:method:: _split_s1s2_new(target: pandas.DataFrame) -> pandas.DataFrame
+
+      Split the target into two targets, one for the S1 data and one for the S2 data.
+
+      :param target: The target to potentially split.
+      :return: A list containing the S1 target and the S2 target from the split.
+
+
+
+   .. py:method:: _scale_reduction_ambition_by_boundary_coverage_new(target: pandas.Series) -> float
+      :staticmethod:
+
+
+      Change in ITR method 1.5: all targets have their ambition scaled by their boundary coverage.
+      :param target: The input target
+      :return: The original target with a weighted reduction ambition, if so required
+
+
+
+   .. py:method:: _assign_time_frame(target: ITR.interfaces.IDataProviderTarget) -> ITR.interfaces.IDataProviderTarget
+      :staticmethod:
+
+
+      Time frame is forward looking: target year - current year.
+          Less than 5y = short,
+          between 5 and 10 is mid,
+          more than 10 is long
+
+      :param target: The input target
+      :return: The original target with the time_frame field filled out (if so required)
+
+
+
+   .. py:method:: _prepare_targets(targets: List[ITR.interfaces.IDataProviderTarget])
+
+      logic
+          - drop invalid targets
+          - identifying the pure-S2 targets for later use
+          - splitting s1s2s3 into s1s2 and s3
+          - combining s1 and s2
+          - assign target.reduction_ambition by considering target's boundary coverage
+
+      :param targets:
+      :return:
+
+
+
+   .. py:method:: _find_target(row: pandas.Series, target_columns: List[str]) -> pandas.DataFrame
+
+      Find the target that corresponds to a given row. If there are multiple targets available, filter them.
+
+      :param row: The row from the data set that should be looked for
+      :param target_columns: The columns to return
+      :return: records from the input data, which contains company and target information, that meet specific criteria. For example, record of greatest emissions_in_scope
+
+
+
+   .. py:method:: _find_s3_targets(target_data: pandas.DataFrame, target_columns: List[str]) -> pandas.DataFrame
+
+      Find S3 target that correspond to the given row. Note that there may be more
+      than one S3 target. We first look for a headline target and return that.
+      If there is none we look for the targets with the latest confirmation date.
+      Then check if there is more than one target with the same confirmation date.
+      The method then returns all non headline targets with the latest confirmation date.
+
+      :param target_data: The target data
+      :param target_columns: The columns to return
+      :return: The target data that meet the criteria
+
+
+
+   .. py:method:: group_targets()
+
+      Group the targets and create the target grid (short, mid, long * s1s2, s3, s1s2s3).
+      Group valid targets by category & filter multiple targets
+      Input: a list of valid targets for each company:
+      For each company:
+
+      Group all valid targets based on scope (S1+S2 / S3 / S1+S2+S3) and time frame (short / mid / long-term)
+      into 6 categories.
+
+      For each category: if more than 1 target is available, filter based on the following criteria
+      -- Latest vintage
+      -- Highest boundary coverage
+      -- Latest end year
+      -- Target type: Absolute over intensity
+      -- If all else is equal: average the ambition of targets
+
+
+
+   .. py:method:: sort_on_vintage(target_data: pandas.DataFrame) -> pandas.DataFrame
+
+      For each combination of company id, time frame, and scope, find all targets with the same latest
+      TARGET_CONFIRM_DATE and return as a DataFrame of targets.
+
+      :param target_data: a DataFrame with target data
+      :return: A DataFrame of targets sorted based on their vintage
+
+
+
+   .. py:method:: sort_boundary_coverage(data: pandas.DataFrame) -> pandas.DataFrame
+
+      We want to select the scope 1 and scope 2 targets that have the highest
+      combined boundary coverage for each group of self.c.COLS.COMPANY_ID,
+      self.c.COLS.TIME_FRAME, self.c.COLS.SCOPE.
+      We compare combinations of individual scope 1 and scope 2
+      targets with combined S1+S2 targets, and select the combination with
+      the highest boundary coverage. If there is only one single scope target
+      (e.g., S1 but no S2), we dismiss it.
+
+      :param data: A dataframe with the target data
+      :return: A dataframe with the target data sorted by boundary coverage
+
+
+

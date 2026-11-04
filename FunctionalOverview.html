@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Functional Overview &mdash; WWF ITR Tool  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=dc073278" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Requirements" href="DataRequirements.html" />
+    <link rel="prev" title="Getting Started Using Python" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WWF ITR Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction to temperature scoring and portfolio coverage methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_app.html">Getting Started with the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_app.html">Using the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Getting Started with Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started Using Python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functional Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#temperature-score">Temperature Score</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#time-frames">Time Frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scopes">Scopes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aggregation-methods">Aggregation methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#grouping-data">Grouping data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choose-fields-to-show">Choose fields to show</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-if-analyses">What-If Analyses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#portfolio-coverage">Portfolio coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-options">Output options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DataRequirements.html">Data Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Legends.html">Data Legends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Project Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terms.html">Terms of Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WWF ITR Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Functional Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/FunctionalOverview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="functional-overview">
+<h1>Functional Overview<a class="headerlink" href="#functional-overview" title="Link to this heading"></a></h1>
+<section id="temperature-score">
+<h2>Temperature Score<a class="headerlink" href="#temperature-score" title="Link to this heading"></a></h2>
+<p>The engine translates eligible company targets into temperature scores
+using the <a class="reference external" href="https://wwfint.awsassets.panda.org/downloads/cdp-wwf-temperature-scoring-methodology---september-2024.pdf">CDP-WWF methodology v1.5</a>
+and packaged AR6 regression parameters. It then aggregates company scores
+using portfolio weights. Companies can receive default scores when no
+eligible target-based score is available for a combination.
+The default configuration uses 3.4°C and a floor of 1.5°C.</p>
+<section id="time-frames">
+<h3>Time Frames<a class="headerlink" href="#time-frames" title="Link to this heading"></a></h3>
+<p>Select <code class="docutils literal notranslate"><span class="pre">SHORT</span></code>, <code class="docutils literal notranslate"><span class="pre">MID</span></code> or <code class="docutils literal notranslate"><span class="pre">LONG</span></code>. The standard target assignment is
+forward-looking from the calculation year: less than five years to the
+target end year is short, five through ten is mid, and more than ten is
+long, subject to the method’s target eligibility and exceptions.
+The <code class="docutils literal notranslate"><span class="pre">T_score</span></code> target type has a five-year adjustment in timeframe
+assignment. Sample results can therefore change over time.
+The app initially selects MID; Python callers explicitly supply timeframes.</p>
+</section>
+<section id="scopes">
+<h3>Scopes<a class="headerlink" href="#scopes" title="Link to this heading"></a></h3>
+<p>The scopes are S1, S2, S1+S2, S3 and S1+S2+S3. In Python and ready-made
+score files, the combined enum names are <code class="docutils literal notranslate"><span class="pre">S1S2</span></code> and <code class="docutils literal notranslate"><span class="pre">S1S2S3</span></code>.
+Combined scores use emissions data. The app adds prerequisite scopes
+internally; Python callers should include them, as demonstrated in
+<a class="reference internal" href="getting_started.html"><span class="doc">Getting Started Using Python</span></a>.</p>
+</section>
+<section id="aggregation-methods">
+<h3>Aggregation methods<a class="headerlink" href="#aggregation-methods" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>WATS</strong>: weighted average using portfolio investment values.</p></li>
+<li><p><strong>TETS</strong>: total emissions weighted temperature score.</p></li>
+<li><p><strong>MOTS</strong>: owned emissions weighted using market capitalization.</p></li>
+<li><p><strong>EOTS</strong>: owned emissions weighted using enterprise value.</p></li>
+<li><p><strong>ECOTS</strong>: owned emissions weighted using enterprise value plus cash.</p></li>
+<li><p><strong>AOTS</strong>: owned emissions weighted using total assets.</p></li>
+<li><p><strong>ROTS</strong>: owned emissions weighted using revenue.</p></li>
+</ul>
+<p>The weighting method changes the question answered by the portfolio
+score. Required emissions and financial values are listed in
+<a class="reference internal" href="DataRequirements.html"><span class="doc">Data Requirements</span></a>. Company scores can also be examined before
+aggregation. Existing provider scores can be aggregated without
+recalculating targets; see notebook 4b in <a class="reference internal" href="notebooks.html"><span class="doc">Getting Started with Notebooks</span></a>.</p>
+</section>
+<section id="grouping-data">
+<h3>Grouping data<a class="headerlink" href="#grouping-data" title="Link to this heading"></a></h3>
+<p>In Python, pass <code class="docutils literal notranslate"><span class="pre">grouping=[&quot;sector&quot;]</span></code> or a list of grouping columns
+to obtain weighted scores and contributions for those groups. Categories
+can include region, country, sector, industry levels and user fields
+supplied through the portfolio. See notebook 1 in <a class="reference internal" href="notebooks.html"><span class="doc">Getting Started with Notebooks</span></a>.
+The app offers hotspot and company views with its own filters and chart
+controls; it does not expose every Python grouping option. Read each
+chart’s labels to distinguish descriptive statistics from weighted scores.</p>
+</section>
+<section id="choose-fields-to-show">
+<h3>Choose fields to show<a class="headerlink" href="#choose-fields-to-show" title="Link to this heading"></a></h3>
+<p>The company-score DataFrame includes company, timeframe, scope and score
+with supporting input and calculation fields. Python lets you select
+columns, inspect the detailed data and create custom exports. The app’s
+downloads are described in <a class="reference internal" href="using_app.html"><span class="doc">Using the App</span></a>; they are not a complete
+archive of every input and intermediate result.</p>
+</section>
+<section id="what-if-analyses">
+<h3>What-If Analyses<a class="headerlink" href="#what-if-analyses" title="Link to this heading"></a></h3>
+<p>Scenarios change assumptions to explore engagement effects; they do not
+prove actual target improvements or change observed SBTi validation.
+The Python scenarios are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGETS</span></code> (1): use 1.75°C in place of the default score.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">APPROVED_TARGETS</span></code> (2): cap scores with target references, using
+1.5°C when configured for the SBTi-target engagement type.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HIGHEST_CONTRIBUTORS</span></code> (3): cap the ten highest contributors for
+each selected scope/timeframe combination.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HIGHEST_CONTRIBUTORS_APPROVED</span></code> (4): cap companies whose
+<code class="docutils literal notranslate"><span class="pre">engagement_target</span></code> is true. Despite its enum name, this is the
+selective-engagement scenario in the implementation.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">SET_TARGETS</span></code> applies a 1.75°C cap and <code class="docutils literal notranslate"><span class="pre">SET_SBTI_TARGETS</span></code> a 1.5°C cap
+where engagement caps are used. Explicitly set both the scenario and
+engagement type in Python. See notebook 3 for worked combinations.
+The app offers selectors and an engagement-candidate workflow. Scenarios
+are unavailable in the app’s pre-scored data mode.</p>
+</section>
+</section>
+<section id="portfolio-coverage">
+<h2>Portfolio coverage<a class="headerlink" href="#portfolio-coverage" title="Link to this heading"></a></h2>
+<p>Coverage is the weighted percentage of holdings with validated near-term
+SBTi targets in the CTA data used for the run. With WATS, the numerator
+is investment value with matched validated targets and the denominator
+is total investment value. Unmatched holdings contribute zero to the
+numerator. The result is from 0 to 100, not a fraction requiring another
+multiplication by 100.</p>
+<p>Portfolio-only WATS coverage does not require a temperature calculation.
+The standalone notebook uses pandas without <code class="docutils literal notranslate"><span class="pre">wwf-itr</span></code>. The Python
+package also provides <code class="docutils literal notranslate"><span class="pre">PortfolioCoverageTVP</span></code> for this purpose. Other
+weighting methods require their additional company data.
+For CTA formats and matching limitations, see <a class="reference internal" href="DataRequirements.html#sbti-status"><span class="std std-ref">SBTi status</span></a>.</p>
+</section>
+<section id="output-options">
+<h2>Output options<a class="headerlink" href="#output-options" title="Link to this heading"></a></h2>
+<p>Python can return company scores, aggregate scores, grouped scores and
+company contributions with supporting data. <code class="docutils literal notranslate"><span class="pre">temperature_results</span></code>
+tracks default-score influence: 0 indicates a target-based score and
+1 a fully default score; combined scopes can be intermediate. The
+aggregated <code class="docutils literal notranslate"><span class="pre">influence_percentage</span></code> expresses default-score influence
+as a percentage. This is distinct from SBTi portfolio coverage.</p>
+<p>For ready-made scores, the app supplies <code class="docutils literal notranslate"><span class="pre">temperature_results=0</span></code> when
+the field is absent. Such an influence value does not independently
+verify the provenance or quality of external scores.</p>
+<p>The app provides CSV and Excel exports. Python/notebooks offer custom
+selection and anonymization. Check all exported identifiers and other
+potentially identifying fields before sharing data; see notebook 5 for
+reporting examples.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started Using Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DataRequirements.html" class="btn btn-neutral float-right" title="Data Requirements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, WWF Sweden.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

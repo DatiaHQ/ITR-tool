@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction to temperature scoring and portfolio coverage methods &mdash; WWF ITR Tool  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_overrides.css?v=dc073278" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started with the App" href="getting_started_app.html" />
+    <link rel="prev" title="WWF ITR Tool: Temperature Scoring &amp; Portfolio Coverage" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            WWF ITR Tool
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to temperature scoring and portfolio coverage methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#why-have-we-built-this-tool">Why have we built this tool?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-have-we-built-the-wwf-finance-tool-in-this-way">Why have we built the WWF Finance tool in this way?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-can-i-use-the-wwf-finance-tool-for">What can I use the WWF Finance tool for?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-data-do-i-need-to-use-the-tool">What data do I need to use the tool?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-can-i-find-the-data">Where can I find the data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview-of-how-the-tool-works">Overview of how the tool works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-are-the-outputs-the-tool-generates">What are the outputs the tool generates?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_app.html">Getting Started with the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_app.html">Using the App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Getting Started with Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionalOverview.html">Functional Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DataRequirements.html">Data Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Legends.html">Data Legends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Project Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terms.html">Terms of Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WWF ITR Tool</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction to temperature scoring and portfolio coverage methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction-to-temperature-scoring-and-portfolio-coverage-methods">
+<h1>Introduction to temperature scoring and portfolio coverage methods<a class="headerlink" href="#introduction-to-temperature-scoring-and-portfolio-coverage-methods" title="Link to this heading"></a></h1>
+<p>Temperature scoring translates companies’ public emissions-reduction
+targets into temperature-alignment scores and combines them at portfolio
+level. Portfolio coverage measures the weighted share of holdings with
+SBTi-validated near-term targets. The two outputs are complementary:
+ambitious disclosed targets and independently validated targets are not
+the same thing.</p>
+<p>The WWF tool implements the
+<a class="reference external" href="https://wwfint.awsassets.panda.org/downloads/cdp-wwf-temperature-scoring-methodology---september-2024.pdf">CDP-WWF Temperature Scoring Methodology v1.5 (September 2024)</a>.
+The underlying project originated in the SBTi-Finance tool. Older SBTi
+methodology documents describe that history; the WWF method above is the
+reference for this implementation. A computed score does not in itself
+constitute official approval of a financial institution’s target.
+For target submissions, consult the
+<a class="reference external" href="https://sciencebasedtargets.org/financial-institutions">SBTi’s financial institution resources</a>
+for the applicable criteria.</p>
+<section id="why-have-we-built-this-tool">
+<h2>Why have we built this tool?<a class="headerlink" href="#why-have-we-built-this-tool" title="Link to this heading"></a></h2>
+<p>The tool makes target-based portfolio analysis transparent and repeatable.
+It helps users identify the companies and sectors that drive a portfolio
+score, compare weighting choices, and explore engagement assumptions.
+The code and methodology can be inspected, and detailed outputs can be
+exported for further analysis.</p>
+</section>
+<section id="why-have-we-built-the-wwf-finance-tool-in-this-way">
+<h2>Why have we built the WWF Finance tool in this way?<a class="headerlink" href="#why-have-we-built-the-wwf-finance-tool-in-this-way" title="Link to this heading"></a></h2>
+<p>The calculation engine is an open-source Python package that can be
+integrated into existing workflows and infrastructure. It uses
+user-supplied data rather than requiring a particular commercial provider.
+The WWF version uses regressions based on IPCC AR6 scenario data.</p>
+<p>The Streamlit app provides a graphical interface, Docker packages the app
+for local execution, and notebooks offer step-by-step explanations.
+Choose the environment appropriate for your data: the public demo and
+Colab process data on external infrastructure, whereas local installations
+run calculations on your computer. See <a class="reference internal" href="index.html"><span class="doc">WWF ITR Tool: Temperature Scoring &amp; Portfolio Coverage</span></a> for the entry points.</p>
+</section>
+<section id="what-can-i-use-the-wwf-finance-tool-for">
+<h2>What can I use the WWF Finance tool for?<a class="headerlink" href="#what-can-i-use-the-wwf-finance-tool-for" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Calculate company and portfolio temperature scores by scope and timeframe.</p></li>
+<li><p>Compare sector, region or other groupings using Python/notebooks and
+inspect companies and hotspots in the app.</p></li>
+<li><p>Aggregate ready-made company scores provided by a data supplier.</p></li>
+<li><p>Measure investment-weighted coverage by SBTi-validated near-term targets.</p></li>
+<li><p>Explore how changed target assumptions could alter a portfolio score.</p></li>
+<li><p>Export results and underlying data for review and reporting.</p></li>
+</ul>
+<p>Scores describe the ambition of disclosed targets under the method’s
+assumptions, not a prediction or guarantee of realized warming. Consider
+data quality, missing information, default scores and the selected
+aggregation method when interpreting them.</p>
+</section>
+<section id="what-data-do-i-need-to-use-the-tool">
+<h2>What data do I need to use the tool?<a class="headerlink" href="#what-data-do-i-need-to-use-the-tool" title="Link to this heading"></a></h2>
+<p>For target-based scoring, supply a portfolio, company fundamentals and
+emissions, and company target data. For ready-made score aggregation,
+supply company scores and the required weighting data. For standalone
+WATS coverage, supply a portfolio with identifiers and investment values
+plus CTA data. See <a class="reference internal" href="DataRequirements.html"><span class="doc">Data Requirements</span></a> for templates and formats.</p>
+</section>
+<section id="where-can-i-find-the-data">
+<h2>Where can I find the data?<a class="headerlink" href="#where-can-i-find-the-data" title="Link to this heading"></a></h2>
+<p>Use company disclosures, your own data collection or a data provider
+whose information can be mapped to the templates. The sample files are
+illustrative and should not be treated as real investment data.
+SBTi status is obtained from CTA data as described in <a class="reference internal" href="DataRequirements.html#sbti-status"><span class="std std-ref">SBTi status</span></a>.
+Coverage depends on identifier quality and the selected CTA snapshot.</p>
+</section>
+<section id="overview-of-how-the-tool-works">
+<h2>Overview of how the tool works<a class="headerlink" href="#overview-of-how-the-tool-works" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Benchmarks.</strong> Regression models based on IPCC AR6 scenarios map
+target ambition to temperature scores. These parameters are supplied
+with the package; ordinary users do not need to rebuild them. See
+<a class="reference external" href="https://github.com/WWF-Sweden/ITR-regression">ITR-regression</a> for the
+benchmark project.</p></li>
+<li><p><strong>Company assessment.</strong> Targets are validated and selected by the
+method’s hierarchy. Compound annual reduction (CAR), target type,
+sector, scope and timeframe determine the applicable score. Combined
+scopes use emissions data. A default score applies when no eligible
+score can be calculated; the standard configuration uses 3.4°C with
+a 1.5°C temperature floor.</p></li>
+<li><p><strong>Portfolio scoring.</strong> Company scores are combined using the selected
+weighting method. Contributions identify which holdings drive the
+aggregate. See <a class="reference internal" href="FunctionalOverview.html"><span class="doc">Functional Overview</span></a> for the available methods.</p></li>
+</ol>
+<p>Portfolio coverage is a separate status-and-weighting calculation; it
+does not require calculating company temperature scores first.</p>
+<p>What-if analyses explore changed target assumptions after a baseline run.
+The scenario caps are 1.75°C or 1.5°C according to the chosen engagement
+type. Selective engagement uses <code class="docutils literal notranslate"><span class="pre">engagement_target</span></code> in Python, or the
+app’s candidate selector. These simulations do not change observed SBTi
+validation status.</p>
+</section>
+<section id="what-are-the-outputs-the-tool-generates">
+<h2>What are the outputs the tool generates?<a class="headerlink" href="#what-are-the-outputs-the-tool-generates" title="Link to this heading"></a></h2>
+<p>Company results contain temperature scores by timeframe and scope with
+supporting data. Portfolio results contain weighted scores, contributions
+and information about default-score influence. Grouped results can be
+requested in Python. Coverage is a percentage from 0 to 100.</p>
+<p>The app provides portfolio, hotspot, company and scenario views and
+CSV/Excel downloads. Python and notebooks provide more control over
+grouping, detailed data and anonymization. See <a class="reference internal" href="using_app.html"><span class="doc">Using the App</span></a> for the
+actual app exports and <a class="reference internal" href="notebooks.html"><span class="doc">Getting Started with Notebooks</span></a> for worked reporting examples.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="WWF ITR Tool: Temperature Scoring &amp; Portfolio Coverage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="getting_started_app.html" class="btn btn-neutral float-right" title="Getting Started with the App" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, WWF Sweden.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
