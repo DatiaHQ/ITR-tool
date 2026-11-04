@@ -20,10 +20,20 @@ Classes
    ITR.target_validation.TargetProtocol
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   ITR.target_validation._reference_year
+
+
 Module Contents
 ---------------
 
 .. py:data:: logger
+
+.. py:function:: _reference_year(target: ITR.interfaces.IDataProviderTarget) -> int
 
 .. py:class:: TargetProtocol(config: Type[ITR.configs.PortfolioAggregationConfig] = PortfolioAggregationConfig)
 
