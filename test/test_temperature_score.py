@@ -4,7 +4,7 @@ import unittest
 import pandas as pd
 
 from ITR.configs import ColumnsConfig
-from ITR.interfaces import ETimeFrames, EScope
+from ITR.interfaces import ETimeFrames, EScope, S3Category
 from ITR.temperature_score import TemperatureScore
 from ITR.portfolio_aggregation import PortfolioAggregationMethod
 
@@ -208,6 +208,40 @@ class TestTemperatureScore(unittest.TestCase):
             places=2,
             msg="Long AOTS aggregation failed",
         )
+
+
+class TestAggregateS3Score(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temperature_score = TemperatureScore(
+            time_frames=list(ETimeFrames), scopes=EScope.get_result_scopes()
+        )
+
+    def _s3_row(self, company_id, s3_category, score):
+        row = {
+            "company_id": company_id,
+            "company_name": company_id,
+            "time_frame": ETimeFrames.MID,
+            "scope": EScope.S3,
+            "s3_category": s3_category,
+            "temperature_score": score,
+            "target_ids": [f"{company_id}-{s3_category.name}"],
+            "target_type": "abs",
+        }
+        for i in range(1, 16):
+            row[f"ghg_s3_{i}"] = float("nan")
+        return row
+
+    def _s3_score(self, data, company_id):
+        result = self.temperature_score._aggregate_s3_score(data)
+        return result.loc[result["company_id"] == company_id, "temperature_score"].item()
+
+    def test_headline_target_scored_on_its_own(self):
+        data = pd.DataFrame([self._s3_row("A", S3Category.CAT_H_LINE, 1.5)])
+        self.assertAlmostEqual(self._s3_score(data, "A"), 1.5)
+
+    def test_category_targets_without_headline_are_averaged(self):
+        data = pd.DataFrame([self._s3_row("B", S3Category.CAT_1, 1.5)])
+        self.assertAlmostEqual(self._s3_score(data, "B"), (1.5 + 14 * 3.4) / 15)
 
 
 if __name__ == "__main__":
