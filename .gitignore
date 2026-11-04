@@ -6,6 +6,9 @@ __pycache__/
 .idea/*
 *.iml
 
+# Local test files
+PN_test.py
+
 # C extensions
 *.so
 
@@ -144,6 +147,7 @@ docker-compose_aws.yml
 
 # Misc
 .noseids
+.DS_Store
 
 #Proprietary data used in data provider validation
 examples/data/BBG*
@@ -154,3 +158,6 @@ examples/6_compare_temps_SP.ipynb
 ITR/PN_test.py
 ITR/s3_agg.py
 examples/data/local/*
+
+# Ignore VS Code configurations
+.vscode/

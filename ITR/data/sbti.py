@@ -1,8 +1,9 @@
-from typing import List, Type
+from typing import List, Type, Optional
 import requests
 import pandas as pd
 import warnings
 import os
+import shutil
 
 
 from ITR.configs import PortfolioCoverageTVPConfig
@@ -19,6 +20,37 @@ class SBTi:
         Check if the CTA file exists in the local file system
         """
         return os.path.isfile(self.c.FILE_TARGETS)
+
+    def _get_bundled_cta_path(self):
+        """
+        Get the path to the bundled CTA file in the package
+        """
+        return os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            "..",
+            "inputs",
+            "current-Companies-Taking-Action.xlsx",
+        )
+
+    def _use_bundled_fallback(self):
+        """
+        Copy the bundled CTA file to the target location as a fallback
+        """
+        bundled_path = self._get_bundled_cta_path()
+        if os.path.isfile(bundled_path):
+            try:
+                target_dir = os.path.dirname(self.c.FILE_TARGETS)
+                os.makedirs(target_dir, exist_ok=True)
+                shutil.copy2(bundled_path, self.c.FILE_TARGETS)
+                print(f'WARNING: Using bundled CTA file as fallback. Data may be outdated.')
+                print(f'Copied bundled file to: {self.c.FILE_TARGETS}')
+                return True
+            except Exception as e:
+                print(f'Error copying bundled CTA file: {e}')
+                return False
+        else:
+            print(f'ERROR: Bundled CTA file not found at {bundled_path}')
+            return False
 
 
     def _check_CTA_less_than_one_week_old(self):
@@ -60,45 +92,90 @@ class SBTi:
             get_file = True
 
         if get_file:
+            download_successful = False
             try:
                 self._fetch_and_save_cta_file()
+                download_successful = True
             
             except requests.HTTPError as err:
                 if err.response.status_code == 403:
                     print(f'403 Error fetching the CTA file: {err}')
                 else:
-                    print(f'Error fetching the CTA file: {err}')
+                    print(f'HTTP Error fetching the CTA file: {err}')
+            except requests.RequestException as err:
+                print(f'Network error fetching the CTA file: {err}')
+                print(f'This may be due to firewall restrictions or network connectivity issues.')
+            except Exception as err:
+                print(f'Unexpected error fetching the CTA file: {err}')
+            
+            # If download failed and file still doesn't exist, use bundled fallback
+            if not download_successful and not self._check_if_cta_file_exists():
+                print(f'Attempting to use bundled CTA file as fallback...')
+                if not self._use_bundled_fallback():
+                    raise RuntimeError(
+                        'Failed to download CTA file and no fallback available. '
+                        'Please check network connectivity or set USE_LOCAL_CTA=True '
+                        'with a valid FILE_TARGETS_CUSTOM_PATH.'
+                    )
         else:            
             print(f'CTA file already exists in {self.c.FILE_TARGETS}, skipping download.')
 
     def _fetch_and_save_cta_file(self):
-        try:
-            headers = {
-                'x-request': 'download',
-                'User-Agent': 'ITR-tool/0.9.2 (Python; ekonomi-finans@wwf.se)',
-                'From': 'ekonomi-finans@wwf.se'
-            }
-            # read from the remote CTA file url
-            response = requests.get(self.c.CTA_FILE_URL, headers=headers)
-            # raise if the status code is not 200
-            response.raise_for_status()
+        # Ensure the directory exists
+        target_dir = os.path.dirname(self.c.FILE_TARGETS)
+        os.makedirs(target_dir, exist_ok=True)
+        
+        headers = {
+            'x-request': 'download',
+            'User-Agent': 'ITR-tool/1.6.0 (Python; ekonomi-finans@wwf.se)',
+            'From': 'ekonomi-finans@wwf.se'
+        }
+        # read from the remote CTA file url
+        response = requests.get(self.c.CTA_FILE_URL, headers=headers, timeout=30)
+        # raise if the status code is not 200
+        response.raise_for_status()
 
-            with open(self.c.FILE_TARGETS, 'wb') as output:
-                output.write(response.content)
-                print(f'Status code from fetching the CTA file: {response.status_code}, 200 = OK')
-        except requests.HTTPError as err:
-            print(f'Error fetching the CTA file: {err}')
+        with open(self.c.FILE_TARGETS, 'wb') as output:
+            output.write(response.content)
+            print(f'Successfully downloaded CTA file (Status: {response.status_code})')
+            print(f'Saved to: {self.c.FILE_TARGETS}')
+
+    def _is_offline(self):
+        env_val = os.environ.get("ITR_OFFLINE", "").strip().lower()
+        if env_val:
+            return env_val in ("1", "true", "yes")
+        return self.c.OFFLINE
 
     def handle_cta_file(self):
+        if self._is_offline():
+            if self._check_if_cta_file_exists():
+                print(f'ITR_OFFLINE: Using existing CTA file at {self.c.FILE_TARGETS}')
+            elif self.c.USE_LOCAL_CTA and os.path.isfile(self.c.FILE_TARGETS_CUSTOM_PATH):
+                self.c.FILE_TARGETS = self.c.FILE_TARGETS_CUSTOM_PATH
+                print(f'ITR_OFFLINE: Using local CTA file at {self.c.FILE_TARGETS}')
+            elif self._use_bundled_fallback():
+                pass  # bundled fallback prints its own messages
+            else:
+                raise RuntimeError(
+                    'ITR_OFFLINE is set but no CTA file is available locally or bundled. '
+                    'Please provide a CTA file via cta_file_path or disable offline mode.'
+                )
+            return
         if self.c.USE_LOCAL_CTA:
             self._use_local_cta_file()
         else:
             self._download_cta_file()
 
     def __init__(
-        self, config: Type[PortfolioCoverageTVPConfig] = PortfolioCoverageTVPConfig
+        self, 
+        config: Type[PortfolioCoverageTVPConfig] = PortfolioCoverageTVPConfig,
+        cta_file_path: Optional[str] = None,
     ):
         self.c = config
+
+        if cta_file_path is not None:
+            self.c.USE_LOCAL_CTA = True
+            self.c.FILE_TARGETS_CUSTOM_PATH = cta_file_path
 
         # Handle CTA file
         self.handle_cta_file()
@@ -108,33 +185,36 @@ class SBTi:
         warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
        
         path = os.path.realpath(self.c.FILE_TARGETS)
-        self.targets = pd.read_excel(path)
+        self.targets = self._normalize_cta_file(pd.read_excel(path))
 
         
-    def filter_cta_file(self, targets):
-        """
-        Filter the CTA file to create a dataframe that has one row per company
-        with the columns "Action" and "Target".
-        If Action = Target then only keep the rows where Target = Near-term.
-        """
-
-        # Create a new dataframe with only the columns "Action" and "Target"
-        # and the columns that are needed for identifying the company
-        targets = targets[
-            [
-                self.c.COL_COMPANY_NAME, 
-                self.c.COL_COMPANY_ISIN, 
-                self.c.COL_COMPANY_LEI, 
-                self.c.COL_ACTION, 
-                self.c.COL_TARGET
-            ]
+    def _normalize_cta_file(self, targets):
+        """Validate required columns and normalize current and previous status labels."""
+        required = [
+            self.c.COL_COMPANY_NAME, self.c.COL_COMPANY_ISIN,
+            self.c.COL_COMPANY_LEI, self.c.COL_TARGET,
         ]
-        
-        # Keep rows where Action = Target and Target = Near-term 
+        missing = [col for col in required if col not in targets.columns]
+        if missing:
+            raise ValueError("CTA file is missing required columns: " + ", ".join(missing))
+
+        targets = targets[required].copy()
+        status = targets[self.c.COL_TARGET].astype("string").str.strip().str.casefold()
+        # Empty cells indicate no near-term status and do not count as validated.
+        unknown = status.notna() & status.ne("") & ~status.isin(self.c.TARGET_STATUS_ALIASES)
+        if unknown.any():
+            values = sorted(targets.loc[unknown, self.c.COL_TARGET].astype(str).unique())
+            raise ValueError("CTA file contains unknown near-term status values: " + ", ".join(values))
+        targets[self.c.COL_TARGET] = status.map(self.c.TARGET_STATUS_ALIASES)
+        return targets
+
+    def filter_cta_file(self, targets):
+        """Keep validated near-term targets and deduplicate company identifiers."""
+        targets = self._normalize_cta_file(targets)
         df_nt_targets = targets[
-            (targets[self.c.COL_ACTION] == self.c.VALUE_ACTION_TARGET) & 
-            (targets[self.c.COL_TARGET] == self.c.VALUE_TARGET_SET)]
-        
+            targets[self.c.COL_TARGET] == self.c.VALUE_STATUS_SET
+        ].copy()
+
         # Drop duplicates in the dataframe by waterfall. 
         # Do company name last due to risk of misspelled names
         # First drop duplicates on LEI, then on ISIN, then on company name
@@ -175,12 +255,13 @@ class SBTi:
             if id_tuple is None:
                 continue
             isin, lei = id_tuple
-            # Check lei and length of lei to avoid zeros 
-            if not lei.lower() == 'nan' and len(lei) > 3:
+            # Check lei and length of lei to avoid zeros
+            # Handle both None and string values
+            if lei is not None and str(lei).lower() not in ('nan', 'none', '') and len(str(lei)) > 3:
                 targets = self.targets[
                     self.targets[self.c.COL_COMPANY_LEI] == lei
                 ]
-            elif not isin.lower() == 'nan':
+            elif isin is not None and str(isin).lower() not in ('nan', 'none', ''):
                 targets = self.targets[
                     self.targets[self.c.COL_COMPANY_ISIN] == isin
                 ]
@@ -188,7 +269,7 @@ class SBTi:
                 continue
             if len(targets) > 0:
                 company.sbti_validated = (
-                    self.c.VALUE_TARGET_SET in targets[self.c.COL_TARGET].values
+                    self.c.VALUE_STATUS_SET in targets[self.c.COL_TARGET].values
                 )
         return companies
 

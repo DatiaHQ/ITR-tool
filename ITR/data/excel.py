@@ -4,6 +4,7 @@ from datetime import date
 import logging
 
 import pandas as pd
+import numpy as np
 from ITR.data.data_provider import DataProvider
 from ITR.configs import ColumnsConfig
 from ITR.interfaces import IDataProviderCompany, IDataProviderTarget, S3Category
@@ -19,12 +20,8 @@ class ExcelProvider(DataProvider):
     def __init__(self, path: str, config: Type[ColumnsConfig] = ColumnsConfig):
         super().__init__()
         self.data = pd.read_excel(path, sheet_name=None, skiprows=0)
-        # Set all missing coverage values to 0.0
-        self.data['target_data'][['coverage_s1', 'coverage_s2', 'coverage_s3', 'reduction_ambition']] = \
-            self.data['target_data'][['coverage_s1', 'coverage_s2', 'coverage_s3', 'reduction_ambition']].fillna(0.0)
+        # Set missing values to 0.0
         self.data['target_data'][['achieved_reduction']] = self.data['target_data'][['achieved_reduction']].fillna(0.0)
-        self.data['target_data'][['base_year_ghg_s1', 'base_year_ghg_s2', 'base_year_ghg_s3']] = \
-            self.data['target_data'][['base_year_ghg_s1', 'base_year_ghg_s2', 'base_year_ghg_s3']].fillna(0.0)
         self.data['target_data']['end_year'] = self.data['target_data']['end_year'].fillna(0)
         self.data['target_data']['scope'] = self.data['target_data']['scope'].replace({'S1S2S3': 'S1+S2+S3'})
         self.data['target_data']['scope'] = self.data['target_data']['scope'].replace({'S1S2': 'S1+S2'})
@@ -42,6 +39,7 @@ class ExcelProvider(DataProvider):
             print(f"An error occurred: {e}")
        
         self.c = config
+        self.invalid_targets: List[dict] = []
 
     def _process_row(self, row):
         if row['scope'] in ['S3', 'S1+S2+S3']:
@@ -76,6 +74,7 @@ class ExcelProvider(DataProvider):
         :return: A list containing the targets
         """
         logger = logging.getLogger(__name__)
+        df_targets = df_targets.copy()  # Avoid mutating the original DataFrame
          # 1) Check if 'statement_date' looks like a date
         df_targets['statement_date'] = pd.to_datetime(df_targets['statement_date'], format='%Y', errors='coerce')
 
@@ -84,20 +83,58 @@ class ExcelProvider(DataProvider):
 
         # 3) If 'start_year' is empty, use 'base_year'
         df_targets.loc[df_targets['statement_date'].isna(), 'statement_date'] = pd.to_datetime(df_targets['base_year'], format='%Y', errors='coerce')
+        # Build company name lookup from fundamental_data
+        name_lookup: dict = {}
+        if 'fundamental_data' in self.data and 'company_name' in self.data['fundamental_data'].columns:
+            name_lookup = dict(zip(
+                self.data['fundamental_data']['company_id'].astype(str),
+                self.data['fundamental_data']['company_name']
+            ))
+
         targets = df_targets.to_dict(orient="records")
         model_targets: List[IDataProviderTarget] = []
         for target in targets:
             try:
+                # Replace NaN/NaT with None so Pydantic handles Optional fields correctly
+                cleaned = {}
+                for k, v in target.items():
+                    try:
+                        if v is None or (not isinstance(v, (list, dict, str)) and pd.isna(v)):
+                            cleaned[k] = None
+                        else:
+                            cleaned[k] = v
+                    except (ValueError, TypeError):
+                        cleaned[k] = v
+                target = cleaned
+                # Convert float years to int (Excel reads int columns as float)
+                for year_col in ['base_year', 'end_year', 'start_year']:
+                    if year_col in target and target[year_col] is not None:
+                        target[year_col] = int(target[year_col])
                 # Map the s3_category values to the S3Category enum
-                target['s3_category'] = S3Category(target['s3_category']) 
-                model_targets.append(IDataProviderTarget.parse_obj(target))
-            except ValidationError as e:
-                print(f"Validationerror: {e}, target: {target}")
+                if 's3_category' in target and target['s3_category'] is not None:
+                    target['s3_category'] = S3Category(int(target['s3_category']))
+                model_targets.append(IDataProviderTarget.model_validate(target))
+            except (ValidationError, TypeError) as e:
+                company_id = str(target.get('company_id', '') or '') if isinstance(target, dict) else ''
+                target_ids = target.get('target_ids', '') if isinstance(target, dict) else ''
+                if isinstance(target_ids, list):
+                    target_ids = ', '.join(str(x) for x in target_ids)
+                elif target_ids is None:
+                    target_ids = ''
+                if isinstance(e, ValidationError):
+                    fields = [str(err['loc'][0]) for err in e.errors() if err.get('loc')]
+                    reason = f"missing or invalid field(s): {', '.join(fields)}"
+                else:
+                    reason = str(e)
+                self.invalid_targets.append({
+                    'company_id': company_id,
+                    'company_name': name_lookup.get(company_id, company_id),
+                    'target_ids': str(target_ids),
+                    'reason': reason,
+                })
                 logger.warning(
-                    f"(one of) the target(s) {target[self.c.TARGET_IDS]} of company {target[self.c.COMPANY_NAME]} is invalid and will be skipped"
-                    
+                    f"Target validation failed and will be skipped: {e}"
                 )
-                pass
         return model_targets
 
     def get_company_data(self, company_ids: List[str]) -> List[IDataProviderCompany]:
@@ -119,7 +156,7 @@ class ExcelProvider(DataProvider):
 
         companies = data_company.to_dict(orient="records")
         model_companies: List[IDataProviderCompany] = [
-            IDataProviderCompany.parse_obj(company) for company in companies
+            IDataProviderCompany.model_validate(company) for company in companies
         ]
         for company in model_companies:
             if company.ghg_s1 is not None or company.ghg_s2 is not None:

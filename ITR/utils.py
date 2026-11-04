@@ -4,7 +4,6 @@ import ast
 from typing import List, Optional, Tuple, Type, Dict
 
 from ITR.configs import ColumnsConfig
-from ITR.data.sbti import SBTi
 from ITR.interfaces import IDataProviderTarget, IDataProviderCompany
 
 
@@ -26,6 +25,8 @@ DATA_PROVIDER_MAP: Dict[str, Type[data.DataProvider]] = {
     "trucost": data.Trucost,
     "urgentem": data.Urgentem,
 }
+
+invalid_targets: List[dict] = []
 
 
 def get_data_providers(
@@ -142,7 +143,7 @@ def _flatten_user_fields(record: PortfolioCompany):
     :param record: The record to flatten
     :return:
     """
-    record_dict = record.dict(exclude_none=True)
+    record_dict = record.model_dump(exclude_none=True)
     if record.user_fields is not None:
         for key, value in record_dict["user_fields"].items():
             record_dict[key] = value
@@ -157,6 +158,12 @@ def _make_id_map(df_portfolio: pd.DataFrame) -> dict:
     :param df_portfolio: The complete portfolio
     :return: A mapping from company_id to (ISIN, LEI) tuple
     """
+    # Ensure ISIN and LEI columns exist (may be absent when all values are None
+    # due to exclude_none=True in model_dump)
+    for col in [ColumnsConfig.COMPANY_ISIN, ColumnsConfig.COMPANY_LEI]:
+        if col not in df_portfolio.columns:
+            df_portfolio[col] = None
+
     return {
         company_id: (company[ColumnsConfig.COMPANY_ISIN], company[ColumnsConfig.COMPANY_LEI])
         for company_id, company in df_portfolio[
@@ -173,13 +180,19 @@ def dataframe_to_portfolio(df_portfolio: pd.DataFrame) -> List[PortfolioCompany]
     Convert a data frame to a list of portfolio company objects.
 
     :param df_portfolio: The data frame to parse. The column names should align with the attribute names of the
-    PortfolioCompany model.
+        PortfolioCompany model.
     :return: A list of portfolio companies
     """
-    df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET] = (
-        df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET].astype("bool").fillna(False)
-    )
+    # df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET] = (
+    #     df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET].fillna(False).astype("bool")
+    # )
+    # Set the future behavior option
+    pd.set_option('future.no_silent_downcasting', True)
 
+    df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET] = (
+        df_portfolio[ColumnsConfig.ENGAGEMENT_TARGET].fillna(False).infer_objects().astype("bool")
+    )
+    
     if 'user_fields' in df_portfolio:
         def process_user_fields(x):
             if isinstance(x, str):
@@ -194,9 +207,28 @@ def dataframe_to_portfolio(df_portfolio: pd.DataFrame) -> List[PortfolioCompany]
 
         df_portfolio['user_fields'] = df_portfolio['user_fields'].apply(process_user_fields)
     return [
-        PortfolioCompany.parse_obj(company)
+        PortfolioCompany.model_validate(company)
         for company in df_portfolio.to_dict(orient="records")
     ]
+
+def check_sbti_validation(
+    targets: List[IDataProviderTarget], 
+    companies: List[IDataProviderCompany]) -> List[IDataProviderTarget]:
+    """
+    Loops through targets and sets the value of sbti_validated to True
+    if the associated company's status of sbti_validated is True, otherwise False
+    We need this information to correctly use the method's time frame exception.
+    This column is dropped before merging with company data in the process method
+    of target_validation.
+
+    :param targets: A list of IDataProviderTarget instances
+    :param companies: A list of IDataProviderCompany instances
+    """
+    # Create a mapping from company_id to sbti_validated status
+    company_sbti_map = {c.company_id: getattr(c, "sbti_validated", False) for c in companies}
+    for t in targets:
+        t.sbti_validated = company_sbti_map.get(t.company_id, False)
+    return targets
 
 
 def get_data(
@@ -218,11 +250,19 @@ def get_data(
     if len(target_data) == 0:
         raise ValueError("No targets found")
 
-    # Supplement the company data with the SBTi target status
-    company_data = SBTi().get_sbti_targets(company_data, _make_id_map(df_portfolio))
-
     # Prepare the data
-    portfolio_data = TargetProtocol().process(target_data, company_data)
+    tp = TargetProtocol()
+    portfolio_data = tp.process(target_data, company_data)
+
+    # Collect all invalid targets: parse failures from providers + business logic failures from TargetProtocol
+    global invalid_targets
+    all_invalid: List[dict] = []
+    for dp in data_providers:
+        if hasattr(dp, 'invalid_targets'):
+            all_invalid.extend(dp.invalid_targets)
+    all_invalid.extend(tp.invalid_targets)
+    invalid_targets = all_invalid
+
     portfolio_data = pd.merge(
         left=portfolio_data,
         right=df_portfolio.drop("company_name", axis=1),

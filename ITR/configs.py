@@ -116,7 +116,8 @@ class TemperatureScoreConfig(PortfolioAggregationConfig):
 
     SBTI_FACTOR = 1
     DEFAULT_SCORE: float = 3.4
-    TEMPERATURE_FLOOR: float = 1.5 # -30   
+    TEMPERATURE_FLOOR: float = 1.5
+    TEST_S3_CALCULATION = False # Set to True to print S3 calculation results   
   
     JSON_REGRESSION_MODEL = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
@@ -165,6 +166,8 @@ class TemperatureScoreConfig(PortfolioAggregationConfig):
         ("Other", EScope.S2): "INT.emCO2energysupply_SE",
         ("Other", EScope.S3): "INT.emKyoto_gdp",
     }
+    intensity_metric_types = set(metric for metric, _ in INTENSITY_MAPPINGS.keys())
+
     ABSOLUTE_MAPPINGS = {
         # B06: Extraction Of Crude Petroleum And Natural Gas
         ("B06", EScope.S1): "Emissions|Kyoto Gases", 
@@ -231,9 +234,11 @@ class TemperatureScoreConfig(PortfolioAggregationConfig):
     EPSILON = 1e-6
 
 class PortfolioCoverageTVPConfig(PortfolioAggregationConfig):
+    # Store CTA file in user's home directory to ensure fresh data and avoid permission issues
+    # Falls back to bundled file if download fails (e.g., firewall restrictions)
     FILE_TARGETS = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        "inputs",
+        os.path.expanduser("~"),
+        ".itr-tool",
         "current-Companies-Taking-Action.xlsx",
     )
     # To avoid CTA file being downloaded every time and use a local file instead, set USE_LOCAL_CTA = True and set the
@@ -244,27 +249,35 @@ class PortfolioCoverageTVPConfig(PortfolioAggregationConfig):
         "current-Companies-Taking-Action.xlsx",
     )
     USE_LOCAL_CTA = False
+    # If True, skip CTA file download (env var ITR_OFFLINE overrides this)
+    OFFLINE = False
     # If the CTA file is older than a week, the file will be downloaded again
     SKIP_CTA_FILE_IF_EXISTS = True
-    # Temporary URL until the SBTi website is updated
-    CTA_FILE_URL = "https://cdn.sciencebasedtargets.org/download/target-dashboard"
-    USE_CUSTOM_FILE_TARGETS_PATH = False
+     # Temporary URL until the SBTi website is updated
+    #CTA_FILE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTn5UZIBmOxWKNFpmQGWWDczMvdBJ74l2_j0emUH9mxEKylHqh3oMLhu2FXtAV7-bqDxy9Yz_hkWzu8/pub?output=xlsx"
+    CTA_FILE_URL = "https://sb-ti.files.svdcdn.com/staging/files/companies-excel.xlsx"
     OUTPUT_TARGET_STATUS = "sbti_target_status"
     OUTPUT_WEIGHTED_TARGET_STATUS = "weighted_sbti_target_status"
-    VALUE_TARGET_NO = "No target"
-    VALUE_TARGET_SET = "Near-term"
-    VALUE_ACTION_COMMITTED = "Commitment"
-    VALUE_ACTION_TARGET = "Target"
+    VALUE_STATUS_SET = "Validated Targets"
+    VALUE_STATUS_COMMITTED = "Commitment to Set Targets"
+    VALUE_STATUS_REMOVED = "Commitment Removed"
 
+    # Accept current and previous labels after stripping whitespace and casefolding.
+    TARGET_STATUS_ALIASES = {
+        "validated targets": VALUE_STATUS_SET,
+        "targets set": VALUE_STATUS_SET,
+        "commitment to set targets": VALUE_STATUS_COMMITTED,
+        "committed": VALUE_STATUS_COMMITTED,
+        "commitment removed": VALUE_STATUS_REMOVED,
+    }
     TARGET_SCORE_MAP = {
-        VALUE_TARGET_NO: 0,
-        VALUE_ACTION_COMMITTED: 0,
-        VALUE_TARGET_SET: 100,
+        VALUE_STATUS_REMOVED: 0,
+        VALUE_STATUS_COMMITTED: 0,
+        VALUE_STATUS_SET: 100,
     }
 
     # SBTi targets overview (TVP coverage)
-    COL_COMPANY_NAME = "Company Name"
-    COL_COMPANY_ISIN = "ISIN"
-    COL_COMPANY_LEI = "LEI"
-    COL_ACTION = "Action"
-    COL_TARGET = "Target"
+    COL_COMPANY_NAME = "company_name"
+    COL_COMPANY_ISIN = "isin"
+    COL_COMPANY_LEI = "lei"
+    COL_TARGET = "near_term_status"
