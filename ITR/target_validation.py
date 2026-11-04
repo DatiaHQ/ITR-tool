@@ -19,6 +19,13 @@ from ITR.interfaces import (
 logger = logging.getLogger(__name__)
 
 
+def _reference_year(target: IDataProviderTarget) -> int:
+    # Method 6.1 counts from the current year; for a result as of a statement date, that is its year.
+    if target.statement_date is not None and not pd.isnull(target.statement_date):
+        return target.statement_date.year
+    return datetime.datetime.now().year
+
+
 class TargetProtocol:
     """
     This class validates the targets, to make sure that only active, useful 
@@ -121,7 +128,7 @@ class TargetProtocol:
                 target.start_year = target.base_year
             if not target.end_year > target.start_year:
                 reasons.append(f"end year ({target.end_year}) is not after start year ({target.start_year})")
-            if not target.end_year >= datetime.datetime.now().year:
+            if not target.end_year >= _reference_year(target):
                 reasons.append(f"end year ({target.end_year}) is in the past")
             if target.scope != EScope.S3:
                 reasons.append(f"t_score target must have scope S3, got {target.scope.value}")
@@ -158,7 +165,7 @@ class TargetProtocol:
             reasons.append(f"end year ({target.end_year}) is not after start year ({target.start_year})")
 
         # The end year should be greater than or equal to the current year
-        if not target.end_year >= datetime.datetime.now().year:
+        if not target.end_year >= _reference_year(target):
             reasons.append(f"end year ({target.end_year}) is in the past")
 
         # Check that base year ghg data is available for the scope of the target
@@ -203,7 +210,7 @@ class TargetProtocol:
 
         # The end year should be greater than or equal to the current year
         # Added in update Oct 22
-        target_current = target.end_year >= datetime.datetime.now().year
+        target_current = target.end_year >= _reference_year(target)
 
         # Target scope must be S3
         target_scope = target.scope == EScope.S3
@@ -358,8 +365,7 @@ class TargetProtocol:
         :param target: The input target
         :return: The original target with the time_frame field filled out (if so required)
         """
-        now = datetime.datetime.now()
-        time_frame = target.end_year - now.year
+        time_frame = target.end_year - _reference_year(target)
         # Method 6.3.6.1: if target is of type T_SCORE, add five years to timeframe
         if target.target_type.lower() == "t_score":
             time_frame += 5
