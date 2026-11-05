@@ -863,6 +863,7 @@ class TemperatureScore(PortfolioAggregation):
         s1s2_data_mask = data[self.c.COLS.SCOPE].isin([EScope.S1, EScope.S2, EScope.S1S2])
         s1s2_data = data[s1s2_data_mask].copy()
         grouped_data = s1s2_data.groupby(['company_id', 'time_frame'])
+        updates = []
 
         for _, group in grouped_data:
             s1s2_score = np.nan # Initailize the s1s2_score to NaN
@@ -889,30 +890,27 @@ class TemperatureScore(PortfolioAggregation):
                 else:
                     s1s2_score = max(s1_score, s2_score)
                     s1_s2_results = 0.5
-                group.loc[group['scope'] == EScope.S1S2, 'temperature_score'] = s1s2_score
-                group.loc[group['scope'] == EScope.S1S2, 'temperature_results'] = s1_s2_results
+                s1s2_rows = group.index[group['scope'] == EScope.S1S2]
                 target_type = cast(
                     str,
                     group.loc[group['scope'] == EScope.S1, 'target_type'].iloc[0],
                 )
-                group.loc[group['scope'] == EScope.S1S2, 'target_type'] = target_type
                 s1_target_ids = group[group['scope'] == EScope.S1]['target_ids'].values 
                 s2_target_ids = group[group['scope'] == EScope.S2]['target_ids'].values
                 combined_target_ids = list(set().union(*s1_target_ids, *s2_target_ids))
-                idx = group.index[group['scope'] == EScope.S1S2][0] 
-                # Store the list of target IDs in a single object-dtype cell.
-                group.at[idx, 'target_ids'] = combined_target_ids  # pyright: ignore[reportArgumentType]
-                        
-                # group = group.infer_objects()
-               
-                # data.update(group) Works but throws a FutureWarning
-               
-                group = group.copy() # Important!
-                cols_to_update = group.columns.tolist() # Or group.columns if no potential for missing columns
-                for index in group.index:
-                    if index in data.index: # Essential check to avoid KeyError.
-                        data.loc[index, cols_to_update] = group.loc[index, cols_to_update].values #.values is important
-   
+                updates.append(
+                    (s1s2_rows, s1s2_score, s1_s2_results, target_type, combined_target_ids)
+                )
+
+        # Only the S1S2 row of each group changes; write just those cells back.
+        for rows, score, results, target_type, target_ids in updates:
+            for row in rows:
+                data.at[row, 'temperature_score'] = score
+                data.at[row, 'temperature_results'] = results
+                data.at[row, 'target_type'] = target_type
+            # Store the list of target IDs in a single object-dtype cell.
+            data.at[rows[0], 'target_ids'] = target_ids  # pyright: ignore[reportArgumentType]
+
         return data
           
     def _aggregate_s3_score(self, data: pd.DataFrame) -> pd.DataFrame:
