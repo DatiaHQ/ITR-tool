@@ -612,10 +612,28 @@ class TargetProtocol:
         )
 
         target_columns = extended_data.columns.tolist() 
+
+        # Most grid cells have no target. Build runs of those cells as one block instead of
+        # one lookup and one single-row DataFrame per cell; the row order stays the same.
+        target_keys = set(self.target_data.index.unique())
+        has_target = [
+            key in target_keys
+            for key in extended_data[grid_columns].itertuples(index=False, name=None)
+        ]
         results = []
-        for _, row in extended_data.iterrows():
-            result = self._find_target(row, target_columns)
-            results.append(result)
+        run_start = None
+        for i, hit in enumerate(has_target + [True]):
+            if not hit and run_start is None:
+                run_start = i
+            if hit and run_start is not None:
+                block = pd.DataFrame(
+                    extended_data.iloc[run_start:i].astype(object), columns=target_columns
+                )
+                block['to_calculate'] = False
+                results.append(block)
+                run_start = None
+            if hit and i < len(has_target):
+                results.append(self._find_target(extended_data.iloc[i], target_columns))
         # Remove empty or all-NA columns from each DataFrame in results (pandas futureproofing)
         results = [df.dropna(how='all', axis=1) for df in results]
         self.data = pd.concat(results, ignore_index=True)
